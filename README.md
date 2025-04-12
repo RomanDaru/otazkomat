@@ -1,62 +1,62 @@
-# Smart QA Assistant
+# OtázkoMat
 
-Smart QA Assistant is an intelligent question-answering platform built with Next.js and OpenAI's GPT-3.5. It provides instant answers to user questions in Slovak language, with features for tracking trending questions and personal question history.
+OtázkoMat je inteligentný asistent pre otázky a odpovede, postavený na Next.js a OpenAI GPT-3.5. Poskytuje okamžité odpovede na otázky používateľov v slovenskom jazyku, s funkciami pre sledovanie trendujúcich otázok a osobnej histórie otázok.
 
-## Features
+## Funkcie
 
-### 🤖 Intelligent Answers
+### 🤖 Inteligentné Odpovede
 
-- Powered by OpenAI's GPT-3.5 model
-- Answers provided in Slovak language
-- Clear and concise responses to everyday questions
+- Poháňané modelom OpenAI GPT-3.5
+- Odpovede poskytované v slovenskom jazyku
+- Jasné a stručné odpovede na každodenné otázky
 
-### 📈 Trending Questions
+### 📈 Trendujúce Otázky
 
-- See what others are asking
-- View most frequently asked questions of the day
-- Engage with community through voting system
+- Sledujte, čo sa pýtajú ostatní
+- Zobrazte najčastejšie kladené otázky dňa
+- Zapojte sa do komunity cez systém hlasovania
 
-### 👤 User Features
+### 👤 Používateľské Funkcie
 
-- Google authentication
-- Personal question history
-- Vote on answer quality
-- Track your most frequent questions
+- Prihlásenie cez Google
+- História osobných otázok
+- Hlasovanie o kvalite odpovedí
+- Sledovanie vašich najčastejších otázok
 
-### 🎨 Modern UI/UX
+### 🎨 Moderné UI/UX
 
-- Responsive design
-- Dark mode interface
-- Smooth transitions and animations
-- Interactive question cards
+- Responzívny dizajn
+- Tmavý režim rozhrania
+- Plynulé prechody a animácie
+- Interaktívne karty otázok
 
-## Tech Stack
+## Technológie
 
 - **Frontend**: Next.js 14, React, TailwindCSS
 - **Backend**: Next.js API Routes
-- **Database**: PostgreSQL with Prisma ORM
-- **Authentication**: NextAuth.js with Google provider
+- **Databáza**: PostgreSQL s Prisma ORM
+- **Autentifikácia**: NextAuth.js s Google poskytovateľom
 - **AI**: OpenAI GPT-3.5 API
-- **Styling**: TailwindCSS with custom gradients
+- **Štýlovanie**: TailwindCSS s vlastnými gradientmi
 
-## Getting Started
+## Začíname
 
-### Prerequisites
+### Požiadavky
 
-- Node.js 18+ installed
-- PostgreSQL database
-- OpenAI API key
+- Node.js 18+ nainštalovaný
+- PostgreSQL databáza
+- OpenAI API kľúč
 - Google OAuth credentials
 
-### Environment Setup
+### Nastavenie Prostredia
 
-Create a `.env` file in the root directory with the following variables:
+Vytvorte `.env` súbor v koreňovom adresári s nasledujúcimi premennými:
 
 ```env
-# Database
+# Databáza
 DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
 
-# Authentication
+# Autentifikácia
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="your-secret-key"
 
@@ -68,65 +68,65 @@ GOOGLE_CLIENT_SECRET="your-google-client-secret"
 OPENAI_API_KEY="your-openai-api-key"
 ```
 
-### Installation
+### Inštalácia
 
-1. Clone the repository:
+1. Naklonujte repozitár:
 
 ```bash
-git clone https://github.com/yourusername/smart-qa-assistant.git
-cd smart-qa-assistant
+git clone https://github.com/yourusername/otazkomat.git
+cd otazkomat
 ```
 
-2. Install dependencies:
+2. Nainštalujte závislosti:
 
 ```bash
 npm install
 ```
 
-3. Set up the database:
+3. Nastavte databázu:
 
 ```bash
 npx prisma migrate dev
 ```
 
-4. Run the development server:
+4. Spustite vývojový server:
 
 ```bash
 npm run dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+5. Otvorte [http://localhost:3000](http://localhost:3000) vo vašom prehliadači.
 
-## Usage
+## Použitie
 
-### For Users
+### Pre Používateľov
 
-1. Visit the website
-2. Ask a question in Slovak language
-3. Get an instant AI-generated answer
-4. (Optional) Log in with Google to:
-   - Track your question history
-   - Vote on answer quality
-   - Access unlimited questions
+1. Navštívte webstránku
+2. Položte otázku v slovenskom jazyku
+3. Získajte okamžitú AI-generovanú odpoveď
+4. (Voliteľné) Prihláste sa cez Google pre:
+   - Sledovanie histórie vašich otázok
+   - Hlasovanie o kvalite odpovedí
+   - Prístup k neobmedzeným otázkam
 
-### For Developers
+### Pre Vývojárov
 
-- The codebase follows a modular structure
-- Components are in `components/` directory
-- API routes are in `app/api/` directory
-- Database schema is in `prisma/schema.prisma`
+- Kódová základňa sleduje modulárnu štruktúru
+- Komponenty sú v adresári `components/`
+- API cesty sú v adresári `app/api/`
+- Schéma databázy je v `prisma/schema.prisma`
 
-## Contributing
+## Prispievanie
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Príspevky sú vítané! Neváhajte poslať Pull Request.
 
-## License
+## Licencia
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Tento projekt je licencovaný pod MIT Licenciou - pozrite súbor [LICENSE](LICENSE) pre detaily.
 
-## Acknowledgments
+## Poďakovanie
 
-- OpenAI for their GPT-3.5 API
-- Vercel for Next.js and hosting
-- The Next.js team for the amazing framework
-- TailwindCSS team for the styling framework
+- OpenAI za ich GPT-3.5 API
+- Vercel za Next.js a hosting
+- Next.js tímu za úžasný framework
+- TailwindCSS tímu za framework štýlovania

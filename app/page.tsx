@@ -17,7 +17,7 @@ export default async function Home() {
 
         <header className='text-center mb-12'>
           <h1 className='text-4xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text'>
-            Smart QA Assistant
+            OtázkoMat
           </h1>
           <p className='text-gray-300 text-lg mb-6'>
             Opýtaj sa čokoľvek a získaj inteligentnú odpoveď na každodennú
