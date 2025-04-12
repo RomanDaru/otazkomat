@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Smart QA Assistant
+
+Smart QA Assistant is an intelligent question-answering platform built with Next.js and OpenAI's GPT-3.5. It provides instant answers to user questions in Slovak language, with features for tracking trending questions and personal question history.
+
+## Features
+
+### 🤖 Intelligent Answers
+
+- Powered by OpenAI's GPT-3.5 model
+- Answers provided in Slovak language
+- Clear and concise responses to everyday questions
+
+### 📈 Trending Questions
+
+- See what others are asking
+- View most frequently asked questions of the day
+- Engage with community through voting system
+
+### 👤 User Features
+
+- Google authentication
+- Personal question history
+- Vote on answer quality
+- Track your most frequent questions
+
+### 🎨 Modern UI/UX
+
+- Responsive design
+- Dark mode interface
+- Smooth transitions and animations
+- Interactive question cards
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React, TailwindCSS
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: NextAuth.js with Google provider
+- **AI**: OpenAI GPT-3.5 API
+- **Styling**: TailwindCSS with custom gradients
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ installed
+- PostgreSQL database
+- OpenAI API key
+- Google OAuth credentials
+
+### Environment Setup
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+
+# Authentication
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key"
+
+# Google OAuth
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+
+# OpenAI
+OPENAI_API_KEY="your-openai-api-key"
+```
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/smart-qa-assistant.git
+cd smart-qa-assistant
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Set up the database:
+
+```bash
+npx prisma migrate dev
+```
+
+4. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### For Users
 
-## Learn More
+1. Visit the website
+2. Ask a question in Slovak language
+3. Get an instant AI-generated answer
+4. (Optional) Log in with Google to:
+   - Track your question history
+   - Vote on answer quality
+   - Access unlimited questions
 
-To learn more about Next.js, take a look at the following resources:
+### For Developers
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- The codebase follows a modular structure
+- Components are in `components/` directory
+- API routes are in `app/api/` directory
+- Database schema is in `prisma/schema.prisma`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- OpenAI for their GPT-3.5 API
+- Vercel for Next.js and hosting
+- The Next.js team for the amazing framework
+- TailwindCSS team for the styling framework
