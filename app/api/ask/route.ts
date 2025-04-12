@@ -51,12 +51,12 @@ export async function POST(req: Request) {
       // If the existing answer has more negative votes, generate a new one
       if (negativeVotes > positiveVotes && session?.user?.id) {
         const completion = await openai.chat.completions.create({
-          model: "gpt-3.5-turbo-0125",
+          model: "gpt-4-0125-preview",
           messages: [
             {
               role: "system",
               content:
-                "You are a helpful assistant that provides accurate and concise answers to everyday questions. Answer in Slovak language. Keep your answers clear and to the point.",
+                "You are a helpful assistant that provides accurate and concise answers to everyday questions. Answer in Slovak language. Keep your answers clear and to the point. For questions about current events, political positions, or recent developments, include a disclaimer that the information should be verified from current sources. If you're not completely sure about current information, acknowledge that and suggest checking official sources.",
             },
             {
               role: "user",
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
         return NextResponse.json({
           answer: newAnswer,
           score: 1,
-          source: "OpenAI GPT-3.5",
+          source: "OpenAI GPT-4",
           questionId: existingQuestion.id,
           askCount: updatedQuestion.askCount,
         });
@@ -95,7 +95,7 @@ export async function POST(req: Request) {
       return NextResponse.json({
         answer: existingQuestion.answer,
         score: 1,
-        source: "OpenAI GPT-3.5",
+        source: "OpenAI GPT-4",
         questionId: existingQuestion.id,
         askCount: updatedQuestion.askCount,
       });
@@ -118,12 +118,12 @@ export async function POST(req: Request) {
 
     // Get answer from OpenAI for new question
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo-0125",
+      model: "gpt-4-0125-preview",
       messages: [
         {
           role: "system",
           content:
-            "You are a helpful assistant that provides accurate and concise answers to everyday questions. Answer in Slovak language. Keep your answers clear and to the point.",
+            "You are a helpful assistant that provides accurate and concise answers to everyday questions. Answer in Slovak language. Keep your answers clear and to the point. For questions about current events, political positions, or recent developments, include a disclaimer that the information should be verified from current sources. If you're not completely sure about current information, acknowledge that and suggest checking official sources.",
         },
         {
           role: "user",
@@ -157,7 +157,7 @@ export async function POST(req: Request) {
       return NextResponse.json({
         answer,
         score: 1,
-        source: "OpenAI GPT-3.5",
+        source: "OpenAI GPT-4",
         questionId: newQuestion.id,
         askCount: 1,
       });
@@ -169,7 +169,7 @@ export async function POST(req: Request) {
         answer +
         "\n\nPre ďalšie otázky sa, prosím, prihláste pomocou Google účtu. Prihlásení používatelia majú prístup k histórii svojich otázok a ďalším funkciám.",
       score: 1,
-      source: "OpenAI GPT-3.5",
+      source: "OpenAI GPT-4",
       requiresLogin: true,
       questionId: newQuestion.id,
       askCount: 1,

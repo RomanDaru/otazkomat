@@ -89,13 +89,17 @@ export default function QuestionForm() {
           onChange={(e) => setQuestion(e.target.value)}
           rows={4}
           placeholder='Sem napíš svoju otázku...'
-          className='w-full p-4 bg-gray-800 text-white rounded-xl border border-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none resize-none transition-colors'
+          className='w-full p-4 pb-4 bg-gray-800 text-white rounded-xl border border-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none resize-none transition-colors'
           required
         />
+        <p className='mt-2 text-xs text-gray-400 italic'>
+          * Otázky pre vás generuje ChatGPT ktorý nemusí byť vždy presný,
+          dôležité otázky si vždy overte!
+        </p>
         <button
           type='submit'
           disabled={loading}
-          className={`absolute bottom-4 right-4 px-6 py-2 rounded-xl transition-all duration-200 ${
+          className={`absolute bottom-[2.5rem] right-4 px-6 py-2 rounded-xl transition-all duration-200 ${
             loading
               ? "bg-gray-700 cursor-not-allowed"
               : "bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white"
