@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import VoteButtons from "./VoteButtons";
 
+// Define maximum character limit
+const MAX_CHAR_LIMIT = 500;
+
 interface Answer {
   answer: string;
   score: number;
@@ -91,11 +94,24 @@ export default function QuestionForm() {
           placeholder='Sem napíš svoju otázku...'
           className='w-full p-4 pb-4 bg-gray-800 text-white rounded-xl border border-gray-700 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none resize-none transition-colors'
           required
+          maxLength={MAX_CHAR_LIMIT}
         />
-        <p className='mt-2 text-xs text-gray-400 italic'>
-          * Otázky pre vás generuje ChatGPT ktorý nemusí byť vždy presný,
-          dôležité otázky si vždy overte!
-        </p>
+        <div className='flex justify-between items-start mt-2'>
+          <p className='text-xs text-gray-400 italic'>
+            * Otázky pre vás generuje ChatGPT ktorý nemusí byť vždy presný,
+            dôležité otázky si vždy overte!
+          </p>
+          <span
+            className={`text-xs transition-colors ${
+              question.length > MAX_CHAR_LIMIT * 0.95
+                ? "text-red-400"
+                : question.length > MAX_CHAR_LIMIT * 0.8
+                ? "text-yellow-400"
+                : "text-gray-400"
+            }`}>
+            {question.length}/{MAX_CHAR_LIMIT}
+          </span>
+        </div>
         <button
           type='submit'
           disabled={loading}
