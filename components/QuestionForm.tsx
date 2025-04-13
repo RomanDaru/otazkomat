@@ -115,7 +115,7 @@ export default function QuestionForm() {
         <button
           type='submit'
           disabled={loading}
-          className={`absolute bottom-[2.5rem] right-4 px-6 py-2 rounded-xl transition-all duration-200 ${
+          className={`absolute bottom-[3.2rem] right-4 px-6 py-2 rounded-xl transition-all duration-200 ${
             loading
               ? "bg-gray-700 cursor-not-allowed"
               : "bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white"

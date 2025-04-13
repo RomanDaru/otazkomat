@@ -11,14 +11,38 @@ interface UserQuestion {
   answer?: string;
   askCount: number;
   lastAsked: string;
+  createdAt?: string;
+  updatedAt?: string;
   isExpanded?: boolean;
+  voteSummary?: {
+    positive: number;
+    negative: number;
+    total: number;
+  };
 }
 
-export default function UserHistory() {
+interface PaginationInfo {
+  page: number;
+  pageSize: number;
+  totalQuestions: number;
+  totalPages: number;
+}
+
+interface UserHistoryProps {
+  showMyQuestionsOnly?: boolean;
+}
+
+export default function UserHistory({
+  showMyQuestionsOnly = false,
+}: UserHistoryProps) {
   const [questions, setQuestions] = useState<UserQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showTrending, setShowTrending] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [sortBy, setSortBy] = useState<"recent" | "popular">("recent");
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -28,13 +52,16 @@ export default function UserHistory() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch("/api/history");
+        const res = await fetch(
+          `/api/history?page=${currentPage}&pageSize=${pageSize}&sortBy=${sortBy}`
+        );
         if (!res.ok) {
           const data = await res.json();
           throw new Error(data.error || "Failed to fetch questions");
         }
         const data = await res.json();
         setQuestions(data.questions);
+        setPagination(data.pagination);
       } catch (error) {
         console.error("Failed to fetch questions:", error);
         setError(
@@ -46,7 +73,7 @@ export default function UserHistory() {
     }
 
     fetchData();
-  }, [showTrending]);
+  }, [showTrending, currentPage, pageSize, sortBy]);
 
   const handleQuestionClick = async (question: UserQuestion) => {
     if (question.answer) {
@@ -88,6 +115,19 @@ export default function UserHistory() {
     }
   };
 
+  const changePage = (newPage: number) => {
+    if (newPage >= 1 && (!pagination || newPage <= pagination.totalPages)) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const toggleSortBy = () => {
+    setSortBy((current) => (current === "recent" ? "popular" : "recent"));
+  };
+
+  // For dedicated My Questions page, don't show trending toggle
+  const showToggle = !showMyQuestionsOnly;
+
   return (
     <div className='bg-gray-800 rounded-xl p-4'>
       <div className='flex justify-between items-center mb-4'>
@@ -97,11 +137,24 @@ export default function UserHistory() {
           }`}>
           {showTrending ? "Najčastejšie otázky dňa" : "Vaše časté otázky"}
         </h2>
-        <button
-          onClick={() => setShowTrending(!showTrending)}
-          className='text-sm px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors'>
-          {showTrending ? "Zobraziť moje otázky" : "Zobraziť trendy"}
-        </button>
+        <div className='flex space-x-2'>
+          {!showTrending && (
+            <button
+              onClick={toggleSortBy}
+              className='text-sm px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors'>
+              {sortBy === "recent"
+                ? "Zobraziť najpopulárnejšie"
+                : "Zobraziť najnovšie"}
+            </button>
+          )}
+          {showToggle && (
+            <button
+              onClick={() => setShowTrending(!showTrending)}
+              className='text-sm px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors'>
+              {showTrending ? "Zobraziť moje otázky" : "Zobraziť trendy"}
+            </button>
+          )}
+        </div>
       </div>
 
       {showTrending ? (
@@ -117,59 +170,111 @@ export default function UserHistory() {
           {error}
         </div>
       ) : questions.length > 0 ? (
-        <div className='space-y-4'>
-          {questions.map((q, index) => (
-            <div
-              key={q.id}
-              className='group cursor-pointer p-4 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 transition-colors'>
+        <>
+          <div className='space-y-4'>
+            {questions.map((q, index) => (
               <div
-                onClick={() => handleQuestionClick(q)}
-                className='flex items-start justify-between'>
-                <div className='flex-1'>
-                  <div className='flex items-center gap-2'>
-                    <span className='text-sm font-medium text-purple-400'>
-                      #{index + 1}
-                    </span>
-                    <span className='text-white group-hover:text-purple-400 transition-colors'>
-                      {q.content}
-                    </span>
-                  </div>
-                  <div className='mt-2 flex items-center gap-2 text-sm text-gray-400'>
-                    <span>Opýtané {q.askCount}x</span>
-                    <span className='text-xs text-gray-500'>
-                      {new Date(q.lastAsked).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              {q.isExpanded && q.answer && (
-                <div className='mt-4 pt-4 border-t border-gray-700'>
-                  <div className='flex justify-between items-center mb-4'>
-                    <h2 className='text-lg font-semibold text-white'>
-                      Odpoveď:
-                    </h2>
-                    <div className='flex items-center space-x-2'>
-                      <span className='px-3 py-1 text-sm bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-purple-500/20 text-purple-400 rounded-full'>
-                        OpenAI GPT-3.5
+                key={q.id}
+                className='group cursor-pointer p-4 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 transition-colors'>
+                <div
+                  onClick={() => handleQuestionClick(q)}
+                  className='flex items-start justify-between'>
+                  <div className='flex-1'>
+                    <div className='flex items-center gap-2'>
+                      <span className='text-sm font-medium text-purple-400'>
+                        #{(currentPage - 1) * pageSize + index + 1}
                       </span>
-                      <span className='px-3 py-1 text-sm bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-purple-500/20 text-purple-400 rounded-full'>
-                        Opýtané {q.askCount}x
+                      <span className='text-white group-hover:text-purple-400 transition-colors'>
+                        {q.content}
                       </span>
                     </div>
-                  </div>
-                  <div className='space-y-4'>
-                    <p className='text-gray-300 leading-relaxed whitespace-pre-wrap'>
-                      {q.answer}
-                    </p>
-                    {session?.user?.id && (
-                      <VoteButtons questionId={q.id} userId={session.user.id} />
-                    )}
+                    <div className='mt-2 flex items-center gap-2 text-sm text-gray-400'>
+                      <span>Opýtané {q.askCount}x</span>
+                      <span className='text-xs text-gray-500'>
+                        {new Date(q.lastAsked).toLocaleDateString()}
+                      </span>
+                      {q.voteSummary && (
+                        <span className='text-xs'>
+                          <span
+                            className={
+                              q.voteSummary.total > 0
+                                ? "text-green-400"
+                                : q.voteSummary.total < 0
+                                ? "text-red-400"
+                                : "text-gray-400"
+                            }>
+                            {q.voteSummary.total > 0 ? "+" : ""}
+                            {q.voteSummary.total}
+                          </span>{" "}
+                          hodnotení
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              )}
+                {q.isExpanded && q.answer && (
+                  <div className='mt-4 pt-4 border-t border-gray-700'>
+                    <div className='flex justify-between items-center mb-4'>
+                      <h2 className='text-lg font-semibold text-white'>
+                        Odpoveď:
+                      </h2>
+                      <div className='flex items-center space-x-2'>
+                        <span className='px-3 py-1 text-sm bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-purple-500/20 text-purple-400 rounded-full'>
+                          OpenAI GPT-3.5
+                        </span>
+                        <span className='px-3 py-1 text-sm bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-purple-500/20 text-purple-400 rounded-full'>
+                          Opýtané {q.askCount}x
+                        </span>
+                      </div>
+                    </div>
+                    <div className='space-y-4'>
+                      <p className='text-gray-300 leading-relaxed whitespace-pre-wrap'>
+                        {q.answer}
+                      </p>
+                      {session?.user?.id && (
+                        <VoteButtons
+                          questionId={q.id}
+                          userId={session.user.id}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {pagination && pagination.totalPages > 1 && (
+            <div className='flex justify-center items-center space-x-2 mt-6'>
+              <button
+                onClick={() => changePage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`px-3 py-1 rounded-lg ${
+                  currentPage === 1
+                    ? "bg-gray-700 text-gray-500 cursor-not-allowed"
+                    : "bg-gray-700 hover:bg-gray-600 text-white"
+                }`}>
+                &larr;
+              </button>
+
+              <span className='text-gray-400 text-sm'>
+                Strana {currentPage} z {pagination.totalPages}
+              </span>
+
+              <button
+                onClick={() => changePage(currentPage + 1)}
+                disabled={currentPage === pagination.totalPages}
+                className={`px-3 py-1 rounded-lg ${
+                  currentPage === pagination.totalPages
+                    ? "bg-gray-700 text-gray-500 cursor-not-allowed"
+                    : "bg-gray-700 hover:bg-gray-600 text-white"
+                }`}>
+                &rarr;
+              </button>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       ) : (
         <p className='text-gray-400 text-sm'>Zatiaľ žiadne otázky v histórii</p>
       )}

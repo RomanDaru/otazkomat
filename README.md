@@ -15,6 +15,7 @@ OtázkoMat je inteligentný asistent pre otázky a odpovede, postavený na Next.
 - Sledujte, čo sa pýtajú ostatní
 - Zobrazte najčastejšie kladené otázky dňa
 - Zapojte sa do komunity cez systém hlasovania
+- Stránkovanie (pagination) pre prehliadanie väčšieho množstva otázok
 
 ### 👤 Používateľské Funkcie
 
@@ -22,13 +23,15 @@ OtázkoMat je inteligentný asistent pre otázky a odpovede, postavený na Next.
 - História osobných otázok
 - Hlasovanie o kvalite odpovedí
 - Sledovanie vašich najčastejších otázok
+- Jednoduchá navigácia medzi stránkami cez navigačný panel
 
 ### 🎨 Moderné UI/UX
 
-- Responzívny dizajn
+- Responzívny dizajn s podporou mobilných zariadení
 - Tmavý režim rozhrania
 - Plynulé prechody a animácie
 - Interaktívne karty otázok
+- Prehľadná navigácia s indikáciou aktuálnej stránky
 
 ## Použitie
 
@@ -37,10 +40,12 @@ OtázkoMat je inteligentný asistent pre otázky a odpovede, postavený na Next.
 1. Navštívte webstránku
 2. Položte otázku v slovenskom jazyku
 3. Získajte okamžitú AI-generovanú odpoveď
-4. (Voliteľné) Prihláste sa cez Google pre:
+4. Prezerajte trendujúce otázky pomocou stránkovania
+5. (Voliteľné) Prihláste sa cez Google pre:
    - Sledovanie histórie vašich otázok
    - Hlasovanie o kvalite odpovedí
    - Prístup k neobmedzeným otázkam
+   - Prístup k stránke "Moje otázky"
 
 ## Licencia
 
