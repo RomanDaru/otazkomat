@@ -1,11 +1,32 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    // Get query parameters for pagination
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const pageSize = parseInt(searchParams.get("pageSize") || "5");
+
+    // Validate pagination parameters
+    const validatedPage = page > 0 ? page : 1;
+    const validatedPageSize = pageSize > 0 && pageSize <= 50 ? pageSize : 5;
+
+    // Calculate skip for pagination
+    const skip = (validatedPage - 1) * validatedPageSize;
+
     // Get today's date at midnight
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+    // Count total questions for pagination
+    const totalQuestions = await prisma.question.count({
+      where: {
+        lastAsked: {
+          gte: today,
+        },
+      },
+    });
 
     // Find questions asked today, sorted by ask count
     const questions = await prisma.question.findMany({
@@ -22,7 +43,8 @@ export async function GET() {
           lastAsked: "desc",
         },
       ],
-      take: 10,
+      skip,
+      take: validatedPageSize,
       select: {
         id: true,
         content: true,
@@ -45,7 +67,15 @@ export async function GET() {
       isExpanded: false,
     }));
 
-    return NextResponse.json({ questions: transformedQuestions });
+    return NextResponse.json({
+      questions: transformedQuestions,
+      pagination: {
+        page: validatedPage,
+        pageSize: validatedPageSize,
+        totalQuestions,
+        totalPages: Math.ceil(totalQuestions / validatedPageSize),
+      },
+    });
   } catch (error) {
     console.error("Error fetching trending questions:", error);
     return NextResponse.json(

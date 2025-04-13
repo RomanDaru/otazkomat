@@ -1,7 +1,6 @@
 import QuestionForm from "@/components/QuestionForm";
 import TrendingQuestions from "@/components/TrendingQuestions";
 import UserHistory from "@/components/UserHistory";
-import LoginButton from "@/components/LoginButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 
@@ -11,12 +10,8 @@ export default async function Home() {
   return (
     <main className='min-h-screen bg-gray-900 text-white'>
       <div className='max-w-4xl mx-auto px-4 py-12'>
-        <div className='flex justify-end mb-8'>
-          <LoginButton />
-        </div>
-
         <header className='text-center mb-12'>
-          <h1 className='text-4xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text'>
+          <h1 className='text-4xl font-bold mb-4 text-transparent bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text'>
             OtázkoMat
           </h1>
           <p className='text-gray-300 text-lg mb-6'>
